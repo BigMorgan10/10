@@ -1,436 +1,254 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Big M 모건 — Univers Interactif Responsive</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24 Carrats Morgan – Portail Céleste</title>
+<meta name="description" content="Explorez l’univers de 24 Carrats Morgan : réseaux, musique et poésie nordiques.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Nunito:wght@300;600&display=swap" rel="stylesheet">
+<!-- Three.js & post-processing -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
-
-  /* Reset */
-  * { margin:0; padding:0; box-sizing: border-box; }
-  body, html {
-    width: 100%; height: 100%;
-    font-family: 'Orbitron', sans-serif;
-    background: radial-gradient(circle at center, #0f0c29 0%, #24243e 70%);
-    color: #00fff7;
-    overflow-x: hidden;
-  }
-
-  /* Intro plein écran */
-  #introScreen {
-    position: fixed; top:0; left:0; right:0; bottom:0;
-    background: radial-gradient(circle at center, #12131b, #0a0a12);
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    gap: 2rem; z-index: 9999; text-align: center; padding: 1rem;
-  }
-  #introScreen h1 {
-    font-size: 4rem;
-    text-shadow: 0 0 30px #00fff7;
-    user-select: none;
-    animation: glowPulse 2.5s ease-in-out infinite;
-  }
-  #introScreen label {
-    font-size: 1.5rem;
-    user-select: none;
-  }
-  #languageSelect {
-    font-size: 1.5rem;
-    padding: 1rem 2rem;
-    border-radius: 15px;
-    border: 2px solid #00fff7;
-    background: transparent;
-    color: #00fff7;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 0 15px rgba(0,255,247,0.6);
-    user-select: none;
-    transition: background 0.3s ease;
-  }
-  #languageSelect:hover {
-    background: #00fff7;
-    color: #12131b;
-  }
-  #enterButton {
-    margin-top: 1.5rem;
-    padding: 1.2rem 3rem;
-    border-radius: 25px;
-    background: linear-gradient(135deg, #111, #222);
-    border: 2px solid #00fff7;
-    color: #00fff7;
-    font-weight: 700;
-    font-size: 1.4rem;
-    cursor: pointer;
-    box-shadow: 0 0 25px #00fff7;
-    transition: all 0.3s ease;
-    user-select: none;
-  }
-  #enterButton:hover {
-    background: #00fff7;
-    color: #12131b;
-    transform: scale(1.1);
-    box-shadow: 0 0 40px #00fff7;
-  }
-  @keyframes glowPulse {
-    0%, 100% { text-shadow: 0 0 15px #00fff7; }
-    50% { text-shadow: 0 0 35px #00fff7; }
-  }
-
-  /* Navbar responsive */
-  nav.navbar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 70px;
-    background: #0b0c10dd;
-    backdrop-filter: blur(8px);
-    border-bottom: 2px solid #00fff7;
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
-    gap: 1rem;
-    z-index: 1000;
-  }
-  .navbar .profile-img {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    border: 3px solid #00fff7;
-    object-fit: cover;
-    box-shadow: 0 0 15px #00fff7;
-    transition: transform 0.4s ease;
-    cursor: pointer;
-  }
-  .navbar .profile-img:hover {
-    transform: scale(1.15) rotate(10deg);
-  }
-  .navbar .title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    flex-grow: 1;
-    user-select: none;
-    text-shadow: 0 0 12px #00fff7;
-  }
-  .navbar button.back-button {
-    background: transparent;
-    border: 2px solid #00fff7;
-    border-radius: 12px;
-    padding: 0.4rem 1rem;
-    color: #00fff7;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px #00fff7;
-    display: none;
-  }
-  .navbar button.back-button:hover {
-    background: #00fff7;
-    color: #12131b;
-    box-shadow: 0 0 30px #00fff7;
-    transform: scale(1.1);
-  }
-  .navbar button.back-button.pulse {
-    animation: pulseGlow 2.5s infinite;
-  }
-  @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 10px #00fff7; }
-    50% { box-shadow: 0 0 30px #00fff7; }
-  }
-
-  /* Hamburger menu styles */
-  .hamburger {
-    width: 30px; height: 22px;
-    position: relative;
-    cursor: pointer;
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .hamburger span {
-    display: block;
-    height: 4px;
-    background: #00fff7;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-  }
-  .hamburger.active span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-  }
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger.active span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-  }
-
-  /* Sidebar menu */
-  .sidebar {
-    position: fixed;
-    top: 70px; left: 0;
-    width: 280px;
-    height: calc(100vh - 70px);
-    background: #12131bdd;
-    border-right: 2px solid #00fff7;
-    padding: 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.8rem;
-    box-shadow: 0 0 60px #00fff7bb;
-    transform: translateX(-320px);
-    transition: transform 0.4s ease;
-    z-index: 1100;
-  }
-  .sidebar.active {
-    transform: translateX(0);
-  }
-  .sidebar a {
-    color: #00fff7;
-    font-weight: 700;
-    font-size: 1.3rem;
-    text-decoration: none;
-    padding: 1rem 1.5rem;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #111, #222);
-    box-shadow: 0 0 20px rgba(0,255,247,0.5);
-    transition: all 0.3s ease;
-  }
-  .sidebar a:hover {
-    background: #00fff7;
-    color: #12131b;
-    box-shadow: 0 0 40px #00fff7;
-  }
-
-  /* Main content */
-  #appContainer {
-    margin-top: 70px;
-    padding: 2rem 1rem 4rem 1rem;
-    min-height: calc(100vh - 70px);
-    max-width: 640px;
-    margin-left: auto;
-    margin-right: auto;
-    color: #00fff7;
-  }
-
-  /* Sections */
-  section.menu-section {
-    display: none;
-    background: #12131bdd;
-    border-radius: 25px;
-    padding: 2rem 3rem;
-    box-shadow: 0 0 55px #00fff7bb;
-    min-height: 280px;
-    color: #00fff7;
-    user-select: text;
-    animation: fadeInSlide 0.5s ease forwards;
-  }
-  section.menu-section.active {
-    display: block;
-  }
-  section.menu-section h2 {
-    margin-bottom: 1.2rem;
-    font-size: 2.4rem;
-    text-shadow: 0 0 15px #00fff7;
-  }
-  section.menu-section a, section.menu-section p {
-    color: #00fff7;
-    font-size: 1.2rem;
-    margin: 1.2rem 0;
-    text-decoration: none;
-    display: block;
-    user-select: text;
-    transition: color 0.3s ease;
-  }
-  section.menu-section a:hover {
-    color: #00ddd7;
-    text-decoration: underline;
-  }
-
-  /* Cinematic text animation */
-  .cinematic-text {
-    font-size: 1.3rem;
-    font-style: italic;
-    opacity: 0;
-    animation: cinematicFadeIn 2.8s ease forwards;
-    max-width: 550px;
-    margin: 1.5rem auto 0 auto;
-    color: #00fff7cc;
-    text-shadow: 0 0 20px #00fff7aa;
-  }
-  @keyframes cinematicFadeIn {
-    to { opacity: 1; }
-  }
-
-  /* Animations */
-  @keyframes fadeInSlide {
-    from {opacity: 0; transform: translateY(40px);}
-    to {opacity: 1; transform: translateY(0);}
-  }
-
-  /* Responsive */
-  @media (max-width: 720px) {
-    .hamburger {
-      display: flex;
-    }
-    nav.navbar .title {
-      font-size: 1.1rem;
-    }
-    .sidebar {
-      width: 220px;
-    }
-    #appContainer {
-      padding: 1rem 1rem 4rem 1rem;
-      max-width: 100%;
-    }
-    section.menu-section {
-      padding: 1.5rem 2rem;
-    }
-  }
+:root{
+  --clr-aurora:#00ffe7;
+  --clr-purple:#7b00ff;
+  --clr-pink:#ff00c8;
+  --radius:24px;
+  --glass-bg:rgba(0,0,0,.35);
+  --font-title:'Cinzel Decorative',serif;
+  --font-body:'Nunito',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body,html{width:100%;height:100%;font-family:var(--font-body);overflow:hidden;background:#000;color:#fff}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
+/* Intro */
+#introScreen{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2rem;z-index:10;backdrop-filter:blur(2px)}
+#animatedTitle{font-family:var(--font-title);font-size:clamp(3rem,10vw,7rem);background:linear-gradient(-45deg,var(--clr-aurora),var(--clr-purple),var(--clr-pink),var(--clr-aurora));background-size:400% 400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradientShift 6s ease infinite}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+select,button{font-family:var(--font-body);font-size:1.3rem;padding:.75rem 2rem;border-radius:var(--radius);border:2px solid var(--clr-aurora);background:transparent;color:var(--clr-aurora);cursor:pointer;transition:.4s}
+button:disabled{opacity:.4;cursor:not-allowed}
+button:not(:disabled):hover{background:var(--clr-aurora);color:#000}
+/* App */
+#appContainer{display:none;flex-direction:column;align-items:center;height:100vh;padding:2rem}
+.navbar{position:fixed;top:0;left:0;right:0;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:var(--glass-bg);backdrop-filter:blur(12px);z-index:10}
+.navbar .logo{font-family:var(--font-title);font-size:1.5rem;color:var(--clr-aurora)}
+.navbar .backBtn{display:none;background:transparent;border:1px solid var(--clr-aurora);color:var(--clr-aurora);padding:.5rem 1rem;border-radius:var(--radius);cursor:pointer}
+#mainMenu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;width:100%;max-width:1200px;margin-top:100px;align-content:center}
+.card{position:relative;border-radius:var(--radius);background:var(--glass-bg);backdrop-filter:blur(20px);border:1px solid var(--clr-aurora);overflow:hidden;transition:transform .5s,box-shadow .5s;cursor:pointer}
+.card:hover{transform:translateY(-10px);box-shadow:0 0 30px var(--clr-aurora)}
+.card img{width:100%;height:160px;object-fit:cover;filter:brightness(.8)}
+.cardContent{padding:1.5rem}
+.cardTitle{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;color:var(--clr-aurora)}
+.cardProverb{font-style:italic;color:#ddd;margin-bottom:1rem}
+.cardLink{display:inline-block;color:var(--clr-aurora);text-decoration:none;font-weight:600}
+.menuSection{display:none;flex-direction:column;align-items:center;justify-content:center;height:100vh;backdrop-filter:blur(20px)}
+.menuSection.active{display:flex}
+.qrBox canvas{border:2px solid var(--clr-aurora);border-radius:var(--radius)}
+@media (max-width:600px){#mainMenu{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<canvas id="bgCanvas"></canvas>
 
-  <!-- Intro plein écran -->
-  <div id="introScreen" role="dialog" aria-modal="true" aria-labelledby="introTitle" aria-describedby="introDesc">
-    <h1 id="introTitle">Bienvenue dans mon univers</h1>
-    <label for="languageSelect">Choisis ta langue / Choose your language :</label>
-    <select id="languageSelect" aria-describedby="languageDesc">
-      <option value="fr">Français 🇫🇷</option>
-      <option value="en">English 🇬🇧</option>
-    </select>
-    <button id="enterButton" aria-label="Entrer dans le site">Entrer</button>
-  </div>
+<!-- INTRO -->
+<div id="introScreen">
+  <h1 id="animatedTitle">24 Carrats Morgan</h1>
+  <select id="languageSelect">
+    <option value="">-- Choisis / Choose --</option>
+    <option value="fr">Français</option>
+    <option value="en">English</option>
+  </select>
+  <button id="enterBtn" disabled>Entrer</button>
+</div>
 
-  <!-- Navbar -->
-  <nav class="navbar" aria-label="Barre de navigation principale">
-    <img src="https://i.imgur.com/7q0kM6f.jpg" alt="Photo de profil Morgan" class="profile-img" />
-    <div class="title">🌌 Big M 모건</div>
-    <button class="back-button pulse" id="backButton" aria-label="Retour au menu principal"></button>
-    <div class="hamburger" id="hamburger" aria-label="Menu principal" role="button" tabindex="0" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+<!-- APP -->
+<div id="appContainer">
+  <nav class="navbar">
+    <span class="logo">24 Carrats Morgan</span>
+    <button class="backBtn" id="backBtn" style="display:none">← Retour</button>
+  </nav>
+
+  <div id="mainMenu">
+    <!-- Instagram -->
+    <div class="card" data-menu="instagram">
+      <img src="https://images.unsplash.com/photo-1504607798333-52a30db54a5d?auto=format&fit=crop&w=800&q=60" alt="Aurore">
+      <div class="cardContent">
+        <div class="cardTitle">Instagram</div>
+        <div class="cardProverb">« L’aurore ne se regarde pas dans un miroir ; elle se vit. »</div>
+        <a class="cardLink" href="https://instagram.com/i_am_24carrats_morgan" target="_blank">Visiter</a>
+      </div>
     </div>
-  </nav>
 
-  <!-- Sidebar menu -->
-  <nav class="sidebar" id="sidebarMenu" aria-label="Menu des liens principaux">
-    <a href="#" data-menu="instagram">📸 Instagram</a>
-    <a href="#" data-menu="youtube">▶️ YouTube</a>
-    <a href="#" data-menu="mail">✉️ Email</a>
-    <a href="#" data-menu="phone">📞 Téléphone</a>
-    <a href="#" data-menu="twitter">🐦 Twitter</a>
-  </nav>
+    <!-- YouTube -->
+    <div class="card" data-menu="youtube">
+      <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=800&q=60" alt="Lumières du Nord">
+      <div class="cardContent">
+        <div class="cardTitle">YouTube</div>
+        <div class="cardProverb">« Celui qui chante sa peine la transforme en lumière. »</div>
+        <a class="cardLink" href="https://youtube.com/@JohnnyMorgan" target="_blank">Johnny Morgan</a>
+      </div>
+    </div>
 
-  <!-- App principal -->
-  <div id="appContainer" aria-live="polite" aria-atomic="true">
-    <!-- Menus individuels -->
-    <section id="menu-instagram" class="menu-section" role="region" aria-label="Menu Instagram">
-      <h2>Instagram</h2>
-      <p>Rejoins-moi sur Instagram pour découvrir mes dernières créations et moments forts.</p>
-      <a href="https://instagram.com/i_am_24carrats_morgan" target="_blank" rel="noopener noreferrer" tabindex="0">Visiter Instagram</a>
-      <p class="cinematic-text">“Là où les pixels brillent comme des diamants...”</p>
-    </section>
+    <!-- Email -->
+    <div class="card" data-menu="email">
+      <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=800&q=60" alt="Lettre nordique">
+      <div class="cardContent">
+        <div class="cardTitle">Email</div>
+        <div class="cardProverb">« Les mots, c’est la neige qui ne fond jamais. »</div>
+        <a class="cardLink" href="mailto:24carratsmorgan@gmail.com">24carratsmorgan@gmail.com</a>
+      </div>
+    </div>
 
-    <section id="menu-youtube" class="menu-section" role="region" aria-label="Menu YouTube">
-      <h2>YouTube</h2>
-      <p>Regarde mes vidéos, vlogs et performances exclusives sur ma chaîne YouTube.</p>
-      <a href="https://youtube.com/@johnnymorgan" target="_blank" rel="noopener noreferrer" tabindex="0">Voir YouTube</a>
-      <p class="cinematic-text">“Chaque vidéo est une porte vers un autre univers...”</p>
-    </section>
+    <!-- Téléphone -->
+    <div class="card" data-menu="phone">
+      <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=60" alt="Appel lointain">
+      <div class="cardContent">
+        <div class="cardTitle">Téléphone</div>
+        <div class="cardProverb">« Une voix peut réchauffer mille nuits polaires. »</div>
+        <a class="cardLink" href="tel:+33670283793">06 70 28 37 93</a>
+      </div>
+    </div>
 
-    <section id="menu-mail" class="menu-section" role="region" aria-label="Menu Email">
-      <h2>Email</h2>
-      <p>Pour toute collaboration ou question, envoie-moi un mail.</p>
-      <a href="mailto:24carratsmorgan@gmail.com" tabindex="0">Envoyer un email</a>
-      <p class="cinematic-text">“Les mots écrits sont des ponts entre les âmes.”</p>
-    </section>
+    <!-- X -->
+    <div class="card" data-menu="x">
+      <img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78?auto=format&fit=crop&w=800&q=60" alt="Ciel étoilé">
+      <div class="cardContent">
+        <div class="cardTitle">X (Twitter)</div>
+        <div class="cardProverb">« L’écho d’un tweet vaut mille cris dans la tempête. »</div>
+        <a class="cardLink" href="https://x.com/i_am_24carrats_Morgan" target="_blank">@i_am_24carrats_Morgan</a>
+      </div>
+    </div>
 
-    <section id="menu-phone" class="menu-section" role="region" aria-label="Menu Téléphone">
-      <h2>Téléphone</h2>
-      <p>Tu préfères une conversation directe ? Voici mon numéro.</p>
-      <a href="tel:+242061098011" tabindex="0">Appeler Morgan</a>
-      <p class="cinematic-text">“La voix humaine, l’onde la plus vraie.”</p>
-    </section>
-
-    <section id="menu-twitter" class="menu-section" role="region" aria-label="Menu Twitter">
-      <h2>Twitter</h2>
-      <p>Pour suivre mes pensées et actualités instantanées.</p>
-      <a href="https://twitter.com/24morgan" target="_blank" rel="noopener noreferrer" tabindex="0">Voir Twitter</a>
-      <p class="cinematic-text">“140 caractères pour illuminer la toile.”</p>
-    </section>
+    <!-- Facebook -->
+    <div class="card" data-menu="facebook">
+      <img src="https://images.unsplash.com/photo-1520769945061-0a448c463865?auto=format&fit=crop&w=800&q=60" alt="Village gelé">
+      <div class="cardContent">
+        <div class="cardTitle">Facebook</div>
+        <div class="cardProverb">« Les souvenirs partagés sont des flocons qui ne fondent pas. »</div>
+        <a class="cardLink" href="https://facebook.com/venka.morgan" target="_blank">Ven-ka Morgan</a>
+      </div>
+    </div>
   </div>
 
-  <script>
-    // DOM elements
-    const introScreen = document.getElementById('introScreen');
-    const enterButton = document.getElementById('enterButton');
-    const languageSelect = document.getElementById('languageSelect');
-    const appContainer = document.getElementById('appContainer');
-    const backButton = document.getElementById('backButton');
-    const hamburger = document.getElementById('hamburger');
-    const sidebarMenu = document.getElementById('sidebarMenu');
-    const menuSections = document.querySelectorAll('.menu-section');
-    const sidebarLinks = sidebarMenu.querySelectorAll('a');
+  <!-- Sections détaillées (QR + proverbes) -->
+  <section id="instagramSection" class="menuSection">
+    <h2>QR Code – Instagram</h2>
+    <div id="qrInsta" class="qrBox"></div>
+    <button class="backBtn">← Retour</button>
+  </section>
+</div>
 
-    // Translations
-    const translations = {
-      fr: {
-        welcome: "Bienvenue dans mon univers",
-        chooseLang: "Choisis ta langue :",
-        enter: "Entrer",
-        navTitle: "🌌 Big M 모건",
-        back: "← Retour",
-        menus: {
-          instagram: {
-            title: "Instagram",
-            desc: "Rejoins-moi sur Instagram pour découvrir mes dernières créations et moments forts.",
-            linkText: "Visiter Instagram",
-            cinematic: "“Là où les pixels brillent comme des diamants...”"
-          },
-          youtube: {
-            title: "YouTube",
-            desc: "Regarde mes vidéos, vlogs et performances exclusives sur ma chaîne YouTube.",
-            linkText: "Voir YouTube",
-            cinematic: "“Chaque vidéo est une porte vers un autre univers...”"
-          },
-          mail: {
-            title: "Email",
-            desc: "Pour toute collaboration ou question, envoie-moi un mail.",
-            linkText: "Envoyer un email",
-            cinematic: "“Les mots écrits sont des ponts entre les âmes.”"
-          },
-          phone: {
-            title: "Téléphone",
-            desc: "Tu préfères une conversation directe ? Voici mon numéro.",
-            linkText: "Appeler Morgan",
-            cinematic: "“La voix humaine, l’onde la plus vraie.”"
-          },
-          twitter: {
-            title: "Twitter",
-            desc: "Pour suivre mes pensées et actualités instantanées.",
-            linkText: "Voir Twitter",
-            cinematic: "“140 caractères pour illuminer la toile.”"
-          }
-        }
-      },
-      en: {
-        welcome: "Welcome to my universe",
-        chooseLang: "Choose your language:",
-        enter: "Enter",
-        navTitle: "🌌 Big M 모건",
-        back: "← Back",
-        menus: {
-          instagram: {
-            title: "Instagram",
-            desc: "Join me on Instagram to discover my latest creations and highlights.",
-            linkText: "Visit Instagram",
-            cinematic: "“Where pixels shine like diamonds...”"
-          },
-          youtube: {
-            title: "YouTube",
-            desc: "Watch my videos, vlogs and exclusive performances on my YouTube channel.",
-            linkText: "Watch YouTube",
-            cinematic: "“Each video is a door to another universe...”"
-          },
-          mail: {
-            title: "Email",
-            desc: "For any collaboration or questions, send me an email.",
-            linkText: "Send
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+/* ---------- 3D Aurora Background ---------- */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, .1, 1000);
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bgCanvas'), alpha: true });
+renderer.setSize(innerWidth, innerHeight);
+
+/* Aurora plane */
+const auroraGeo = new THREE.PlaneGeometry(100, 100, 200, 200);
+const auroraMat = new THREE.ShaderMaterial({
+  uniforms: { time: { value: 0 } },
+  vertexShader: `
+    varying vec2 vUv;
+    uniform float time;
+    void main(){
+      vUv = uv;
+      vec3 pos = position;
+      pos.z += sin(pos.x*0.2 + time) * cos(pos.y*0.1 + time) * 4.0;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    }
+  `,
+  fragmentShader: `
+    varying vec2 vUv;
+    uniform float time;
+    vec3 colorA = vec3(0.0, 1.0, 0.91);
+    vec3 colorB = vec3(0.48, 0.0, 1.0);
+    vec3 colorC = vec3(1.0, 0.0, 0.78);
+    void main(){
+      float mixVal = sin(vUv.x * 4.0 + time) * cos(vUv.y * 2.0 + time) * 0.5 + 0.5;
+      vec3 col = mix(colorA, colorB, mixVal);
+      col = mix(col, colorC, sin(time*0.5)*0.4+0.2);
+      gl_FragColor = vec4(col, 0.6);
+    }
+  `,
+  transparent: true
+});
+const aurora = new THREE.Mesh(auroraGeo, auroraMat);
+scene.add(aurora);
+
+/* Particles */
+const starGeo = new THREE.BufferGeometry();
+const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.03 });
+const starVertices = [];
+for (let i = 0; i < 15000; i++) {
+  const x = (Math.random() - 0.5) * 200;
+  const y = (Math.random() - 0.5) * 200;
+  const z = (Math.random() - 0.5) * 200;
+  starVertices.push(x, y, z);
+}
+starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+scene.add(new THREE.Points(starGeo, starMat));
+
+camera.position.z = 50;
+
+function animate() {
+  requestAnimationFrame(animate);
+  auroraMat.uniforms.time.value = performance.now() * 0.0005;
+  aurora.rotation.z += 0.0003;
+  renderer.render(scene, camera);
+}
+animate();
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+/* ---------- UI ---------- */
+const langSel = document.getElementById('languageSelect');
+const enterBtn = document.getElementById('enterBtn');
+const intro = document.getElementById('introScreen');
+const app = document.getElementById('appContainer');
+
+langSel.addEventListener('change', () => enterBtn.disabled = !langSel.value);
+enterBtn.addEventListener('click', () => {
+  localStorage.setItem('lang', langSel.value);
+  intro.style.display = 'none';
+  app.style.display = 'flex';
+});
+if (localStorage.getItem('lang')) {
+  intro.remove();
+  app.style.display = 'flex';
+}
+
+/* Nav */
+const mainMenu = document.getElementById('mainMenu');
+const backBtn = document.getElementById('backBtn');
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    const id = card.dataset.menu;
+    document.querySelectorAll('.menuSection').forEach(s => s.classList.remove('active'));
+    const targetSection = document.getElementById(id + 'Section');
+    if (targetSection) targetSection.classList.add('active');
+    mainMenu.style.display = 'none';
+    backBtn.style.display = 'inline-block';
+  });
+});
+backBtn.addEventListener('click', () => {
+  document.querySelectorAll('.menuSection').forEach(s => s.classList.remove('active'));
+  mainMenu.style.display = 'grid';
+  backBtn.style.display = 'none';
+});
+
+/* QR */
+QRCode.toCanvas(document.getElementById('qrInsta'), 'https://instagram.com/i_am_24carrats_morgan', { width: 180 });
+</script>
+</body>
+</html>
