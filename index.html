@@ -1,254 +1,76 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>24 Carrats Morgan – Portail Céleste</title>
-<meta name="description" content="Explorez l’univers de 24 Carrats Morgan : réseaux, musique et poésie nordiques.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Nunito:wght@300;600&display=swap" rel="stylesheet">
-<!-- Three.js & post-processing -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
-<style>
-:root{
-  --clr-aurora:#00ffe7;
-  --clr-purple:#7b00ff;
-  --clr-pink:#ff00c8;
-  --radius:24px;
-  --glass-bg:rgba(0,0,0,.35);
-  --font-title:'Cinzel Decorative',serif;
-  --font-body:'Nunito',sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body,html{width:100%;height:100%;font-family:var(--font-body);overflow:hidden;background:#000;color:#fff}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
-/* Intro */
-#introScreen{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2rem;z-index:10;backdrop-filter:blur(2px)}
-#animatedTitle{font-family:var(--font-title);font-size:clamp(3rem,10vw,7rem);background:linear-gradient(-45deg,var(--clr-aurora),var(--clr-purple),var(--clr-pink),var(--clr-aurora));background-size:400% 400%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradientShift 6s ease infinite}
-@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-select,button{font-family:var(--font-body);font-size:1.3rem;padding:.75rem 2rem;border-radius:var(--radius);border:2px solid var(--clr-aurora);background:transparent;color:var(--clr-aurora);cursor:pointer;transition:.4s}
-button:disabled{opacity:.4;cursor:not-allowed}
-button:not(:disabled):hover{background:var(--clr-aurora);color:#000}
-/* App */
-#appContainer{display:none;flex-direction:column;align-items:center;height:100vh;padding:2rem}
-.navbar{position:fixed;top:0;left:0;right:0;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:var(--glass-bg);backdrop-filter:blur(12px);z-index:10}
-.navbar .logo{font-family:var(--font-title);font-size:1.5rem;color:var(--clr-aurora)}
-.navbar .backBtn{display:none;background:transparent;border:1px solid var(--clr-aurora);color:var(--clr-aurora);padding:.5rem 1rem;border-radius:var(--radius);cursor:pointer}
-#mainMenu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;width:100%;max-width:1200px;margin-top:100px;align-content:center}
-.card{position:relative;border-radius:var(--radius);background:var(--glass-bg);backdrop-filter:blur(20px);border:1px solid var(--clr-aurora);overflow:hidden;transition:transform .5s,box-shadow .5s;cursor:pointer}
-.card:hover{transform:translateY(-10px);box-shadow:0 0 30px var(--clr-aurora)}
-.card img{width:100%;height:160px;object-fit:cover;filter:brightness(.8)}
-.cardContent{padding:1.5rem}
-.cardTitle{font-size:1.4rem;font-weight:700;margin-bottom:.5rem;color:var(--clr-aurora)}
-.cardProverb{font-style:italic;color:#ddd;margin-bottom:1rem}
-.cardLink{display:inline-block;color:var(--clr-aurora);text-decoration:none;font-weight:600}
-.menuSection{display:none;flex-direction:column;align-items:center;justify-content:center;height:100vh;backdrop-filter:blur(20px)}
-.menuSection.active{display:flex}
-.qrBox canvas{border:2px solid var(--clr-aurora);border-radius:var(--radius)}
-@media (max-width:600px){#mainMenu{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <title>24 CARRATS MORGAN — Portail Astral</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body, html { margin:0; padding:0; overflow:hidden; font-family:'Nunito',sans-serif; color:#f0f0f0; background:#000; }
+    canvas#starfield { position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1; }
+    .overlay { position:relative; z-index:1; text-align:center; padding:2rem; }
+    h1 { font-family:'Cinzel Decorative', serif; font-size:3rem; background:linear-gradient(to right,#00ffe7,#7b00ff,#ff00c8); -webkit-background-clip:text; color:transparent; margin-bottom:1rem; }
+    .profile { margin:1rem auto; width:200px; height:260px; overflow:hidden; border-radius:20px; box-shadow:0 0 20px rgba(0,255,231,0.6); }
+    .profile img { width:100%; height:100%; object-fit:cover; }
+    .quote { font-style:italic; margin:1rem auto; max-width:600px; font-size:1.2rem; }
+    .whatsapp { display:inline-block; margin:2rem; padding:1rem 2rem; background:#25D366; color:#fff; border-radius:30px; text-decoration:none; font-size:1.2rem; box-shadow:0 0 10px rgba(0,0,0,0.3); }
+    .audio-control { margin-top:1rem; cursor:pointer; font-size:1rem; color:#fff; opacity:0.8; }
+  </style>
 </head>
 <body>
-<canvas id="bgCanvas"></canvas>
-
-<!-- INTRO -->
-<div id="introScreen">
-  <h1 id="animatedTitle">24 Carrats Morgan</h1>
-  <select id="languageSelect">
-    <option value="">-- Choisis / Choose --</option>
-    <option value="fr">Français</option>
-    <option value="en">English</option>
-  </select>
-  <button id="enterBtn" disabled>Entrer</button>
-</div>
-
-<!-- APP -->
-<div id="appContainer">
-  <nav class="navbar">
-    <span class="logo">24 Carrats Morgan</span>
-    <button class="backBtn" id="backBtn" style="display:none">← Retour</button>
-  </nav>
-
-  <div id="mainMenu">
-    <!-- Instagram -->
-    <div class="card" data-menu="instagram">
-      <img src="https://images.unsplash.com/photo-1504607798333-52a30db54a5d?auto=format&fit=crop&w=800&q=60" alt="Aurore">
-      <div class="cardContent">
-        <div class="cardTitle">Instagram</div>
-        <div class="cardProverb">« L’aurore ne se regarde pas dans un miroir ; elle se vit. »</div>
-        <a class="cardLink" href="https://instagram.com/i_am_24carrats_morgan" target="_blank">Visiter</a>
-      </div>
-    </div>
-
-    <!-- YouTube -->
-    <div class="card" data-menu="youtube">
-      <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=800&q=60" alt="Lumières du Nord">
-      <div class="cardContent">
-        <div class="cardTitle">YouTube</div>
-        <div class="cardProverb">« Celui qui chante sa peine la transforme en lumière. »</div>
-        <a class="cardLink" href="https://youtube.com/@JohnnyMorgan" target="_blank">Johnny Morgan</a>
-      </div>
-    </div>
-
-    <!-- Email -->
-    <div class="card" data-menu="email">
-      <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=800&q=60" alt="Lettre nordique">
-      <div class="cardContent">
-        <div class="cardTitle">Email</div>
-        <div class="cardProverb">« Les mots, c’est la neige qui ne fond jamais. »</div>
-        <a class="cardLink" href="mailto:24carratsmorgan@gmail.com">24carratsmorgan@gmail.com</a>
-      </div>
-    </div>
-
-    <!-- Téléphone -->
-    <div class="card" data-menu="phone">
-      <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=60" alt="Appel lointain">
-      <div class="cardContent">
-        <div class="cardTitle">Téléphone</div>
-        <div class="cardProverb">« Une voix peut réchauffer mille nuits polaires. »</div>
-        <a class="cardLink" href="tel:+33670283793">06 70 28 37 93</a>
-      </div>
-    </div>
-
-    <!-- X -->
-    <div class="card" data-menu="x">
-      <img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78?auto=format&fit=crop&w=800&q=60" alt="Ciel étoilé">
-      <div class="cardContent">
-        <div class="cardTitle">X (Twitter)</div>
-        <div class="cardProverb">« L’écho d’un tweet vaut mille cris dans la tempête. »</div>
-        <a class="cardLink" href="https://x.com/i_am_24carrats_Morgan" target="_blank">@i_am_24carrats_Morgan</a>
-      </div>
-    </div>
-
-    <!-- Facebook -->
-    <div class="card" data-menu="facebook">
-      <img src="https://images.unsplash.com/photo-1520769945061-0a448c463865?auto=format&fit=crop&w=800&q=60" alt="Village gelé">
-      <div class="cardContent">
-        <div class="cardTitle">Facebook</div>
-        <div class="cardProverb">« Les souvenirs partagés sont des flocons qui ne fondent pas. »</div>
-        <a class="cardLink" href="https://facebook.com/venka.morgan" target="_blank">Ven-ka Morgan</a>
-      </div>
+  <canvas id="starfield"></canvas>
+  <div class="overlay">
+    <h1>24 CARRATS MORGAN</h1>
+    <div class="profile"><img src="styled_profile_image.png" alt="Morgan"></div>
+    <p class="quote">"Chaque nuit te rapproche des étoiles cachées. Marche avec elles."</p>
+    <a href="https://wa.me/242067224020" target="_blank" class="whatsapp">📱 Contact WhatsApp</a>
+    <div>
+      <audio id="bgm" loop preload="auto">
+        <source src="https://orangefreesounds.com/wp-content/uploads/2025/03/Cosmic-ambient-soundscape-music.mp3" type="audio/mpeg">
+      </audio>
+      <button id="audioBtn" class="audio-control">▶ Activer ambiance</button>
     </div>
   </div>
 
-  <!-- Sections détaillées (QR + proverbes) -->
-  <section id="instagramSection" class="menuSection">
-    <h2>QR Code – Instagram</h2>
-    <div id="qrInsta" class="qrBox"></div>
-    <button class="backBtn">← Retour</button>
-  </section>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-<script>
-/* ---------- 3D Aurora Background ---------- */
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, .1, 1000);
-const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bgCanvas'), alpha: true });
-renderer.setSize(innerWidth, innerHeight);
-
-/* Aurora plane */
-const auroraGeo = new THREE.PlaneGeometry(100, 100, 200, 200);
-const auroraMat = new THREE.ShaderMaterial({
-  uniforms: { time: { value: 0 } },
-  vertexShader: `
-    varying vec2 vUv;
-    uniform float time;
-    void main(){
-      vUv = uv;
-      vec3 pos = position;
-      pos.z += sin(pos.x*0.2 + time) * cos(pos.y*0.1 + time) * 4.0;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+  <script>
+    // Starfield effect (plain JS)
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let w, h, stars = [], speed=0.02;
+    function init() {
+      w = canvas.width = innerWidth;
+      h = canvas.height = innerHeight;
+      stars = Array.from({length:400}, () => ({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        z: Math.random()*w
+      }));
     }
-  `,
-  fragmentShader: `
-    varying vec2 vUv;
-    uniform float time;
-    vec3 colorA = vec3(0.0, 1.0, 0.91);
-    vec3 colorB = vec3(0.48, 0.0, 1.0);
-    vec3 colorC = vec3(1.0, 0.0, 0.78);
-    void main(){
-      float mixVal = sin(vUv.x * 4.0 + time) * cos(vUv.y * 2.0 + time) * 0.5 + 0.5;
-      vec3 col = mix(colorA, colorB, mixVal);
-      col = mix(col, colorC, sin(time*0.5)*0.4+0.2);
-      gl_FragColor = vec4(col, 0.6);
+    function animate() {
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0,0,w,h);
+      ctx.fillStyle = 'white';
+      stars.forEach(s => {
+        s.z -= speed * w;
+        if (s.z <= 0) s.z = w;
+        const px = (s.x - w/2) * (w/s.z) + w/2;
+        const py = (s.y - h/2) * (w/s.z) + h/2;
+        const radius = (1 - s.z / w) * 2;
+        ctx.beginPath();
+        ctx.arc(px, py, radius, 0, Math.PI*2);
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
     }
-  `,
-  transparent: true
-});
-const aurora = new THREE.Mesh(auroraGeo, auroraMat);
-scene.add(aurora);
+    window.addEventListener('resize', init);
+    init(); animate();
 
-/* Particles */
-const starGeo = new THREE.BufferGeometry();
-const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.03 });
-const starVertices = [];
-for (let i = 0; i < 15000; i++) {
-  const x = (Math.random() - 0.5) * 200;
-  const y = (Math.random() - 0.5) * 200;
-  const z = (Math.random() - 0.5) * 200;
-  starVertices.push(x, y, z);
-}
-starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-scene.add(new THREE.Points(starGeo, starMat));
-
-camera.position.z = 50;
-
-function animate() {
-  requestAnimationFrame(animate);
-  auroraMat.uniforms.time.value = performance.now() * 0.0005;
-  aurora.rotation.z += 0.0003;
-  renderer.render(scene, camera);
-}
-animate();
-window.addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-});
-
-/* ---------- UI ---------- */
-const langSel = document.getElementById('languageSelect');
-const enterBtn = document.getElementById('enterBtn');
-const intro = document.getElementById('introScreen');
-const app = document.getElementById('appContainer');
-
-langSel.addEventListener('change', () => enterBtn.disabled = !langSel.value);
-enterBtn.addEventListener('click', () => {
-  localStorage.setItem('lang', langSel.value);
-  intro.style.display = 'none';
-  app.style.display = 'flex';
-});
-if (localStorage.getItem('lang')) {
-  intro.remove();
-  app.style.display = 'flex';
-}
-
-/* Nav */
-const mainMenu = document.getElementById('mainMenu');
-const backBtn = document.getElementById('backBtn');
-document.querySelectorAll('.card').forEach(card => {
-  card.addEventListener('click', () => {
-    const id = card.dataset.menu;
-    document.querySelectorAll('.menuSection').forEach(s => s.classList.remove('active'));
-    const targetSection = document.getElementById(id + 'Section');
-    if (targetSection) targetSection.classList.add('active');
-    mainMenu.style.display = 'none';
-    backBtn.style.display = 'inline-block';
-  });
-});
-backBtn.addEventListener('click', () => {
-  document.querySelectorAll('.menuSection').forEach(s => s.classList.remove('active'));
-  mainMenu.style.display = 'grid';
-  backBtn.style.display = 'none';
-});
-
-/* QR */
-QRCode.toCanvas(document.getElementById('qrInsta'), 'https://instagram.com/i_am_24carrats_morgan', { width: 180 });
-</script>
+    // Audio control
+    const bgm = document.getElementById('bgm');
+    const btn = document.getElementById('audioBtn');
+    btn.addEventListener('click', () => {
+      if (bgm.paused) { bgm.play(); btn.textContent = '⏸ Désactiver ambiance'; }
+      else { bgm.pause(); btn.textContent = '▶ Activer ambiance'; }
+    });
+  </script>
 </body>
 </html>
