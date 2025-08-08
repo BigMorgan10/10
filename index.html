@@ -80,6 +80,15 @@
       margin-top: 30px;
       font-size: 1.2rem;
     }
+    .menu-section {
+      margin-top: 40px;
+    }
+    .menu-section img {
+      width: 150px;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 20px;
+    }
   </style>
 </head>
 <body>
@@ -95,15 +104,38 @@
   </div>
 
   <div id="app">
-    <h1>🌟 Portail de Big M</h1>
-    <nav>
-      <a href="#">Accueil</a>
-      <a href="#">À propos</a>
-      <a href="#">Œuvres</a>
-      <a href="#">Contact</a>
-    </nav>
-    <div class="whatsapp">
-      Contact WhatsApp : <strong>067224020</strong>
+    <div class="menu-section" id="home">
+      <img src="https://via.placeholder.com/150" alt="Morgan">
+      <h1>Accueil</h1>
+      <nav>
+        <a href="#about">À propos</a>
+        <a href="#works">Œuvres</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+
+    <div class="menu-section" id="about">
+      <img src="https://via.placeholder.com/150" alt="Morgan">
+      <h1>À propos</h1>
+      <p>Un artiste mystique, une âme en or, un regard sur l’invisible.</p>
+    </div>
+
+    <div class="menu-section" id="works">
+      <img src="https://via.placeholder.com/150" alt="Morgan">
+      <h1>Œuvres</h1>
+      <ul>
+        <li><a href="#">Projet 1</a></li>
+        <li><a href="#">Projet 2</a></li>
+        <li><a href="#">Projet 3</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section" id="contact">
+      <img src="https://via.placeholder.com/150" alt="Morgan">
+      <h1>Contact</h1>
+      <div class="whatsapp">
+        WhatsApp : <strong>067224020</strong>
+      </div>
     </div>
   </div>
 
@@ -116,7 +148,10 @@
 
     window.onload = () => {
       const lang = localStorage.getItem('lang');
-      if (lang) {
+      if (!lang) {
+        document.getElementById('lang-select').style.display = 'flex';
+        document.getElementById('app').style.display = 'none';
+      } else {
         document.getElementById('lang-select').style.display = 'none';
         document.getElementById('app').style.display = 'block';
       }
