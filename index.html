@@ -54,6 +54,7 @@ body,html{width:100%;height:100%;font-family:var(--font);background:radial-gradi
     <option value="fr">Français</option>
     <option value="en">English</option>
   </select>
+  
   <button id="enterButton" disabled>Entrer</button>
 </div>
 
@@ -68,7 +69,7 @@ body,html{width:100%;height:100%;font-family:var(--font);background:radial-gradi
   <main id="main-menu">
     <button class="link-button" data-menu="instagram"><svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8c0 2 1.6 3.6 3.6 3.6h8.8c2 0 3.6-1.6 3.6-3.6V7.6c0-2-1.6-3.6-3.6-3.6H7.6zm9.65 1.5A1.25 1.25 0 0 1 18.5 6.75 1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75 1.25 1.25 0 0 1 17.25 5.5zM12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>Instagram</button>
     <button class="link-button" data-menu="youtube"><svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6zM21.56 7.17A2 2 0 0 0 20 5.33H4a2 2 0 0 0-2 2v9.34a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7.17z"/></svg>YouTube</button>
-    <button class="link-button" data-menu="mail"><svg viewBox="0 0 24 24"><path d="M20 8l-8 5-8-5V6l8 5 8-5v2zm0-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>Email</button>
+    <button class="link-button" data-menu="Email"><svg viewBox="0 0 24 24"><path d="M20 8l-8 5-8-5V6l8 5 8-5v2zm0-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>Email</button>
     <button class="link-button" data-menu="phone"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2a1.25 1.25 0 0 1 1.02-.27 17.9 17.9 0 0 0 3.55-.39 1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1.25 1.25 0 0 1-.25 1.32z"/></svg>Téléphone</button>
     <button class="link-button" data-menu="x"><svg viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05a4.5 4.5 0 0 0-3.18-1.38c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.99-3.56-.18-6.73-1.89-8.84-4.48-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.7 0-1.34-.21-1.92-.53v.05c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.94.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.07C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>X (Twitter)</button>
     <button class="link-button" data-menu="facebook"><svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>Facebook</button>
@@ -77,31 +78,37 @@ body,html{width:100%;height:100%;font-family:var(--font);background:radial-gradi
   <section id="menu-instagram" class="menu-section">
     <h2>Instagram</h2>
     <p>@bigmornigstarr</p>
-    <a href="https://instagram.com/bigmornigstarr" target="_blank" rel="noopener noreferrer">Visiter</a>Donner, c'est donner ; reprendre, c'est voler.
+    <a href="https://instagram.com/bigmornigstarr" target="_blank" rel="noopener noreferrer">Visiter</a>
+    Donner, c'est donner ; reprendre, c'est voler.
     <div id="qrCode"></div>
   </section>
   <section id="menu-youtube" class="menu-section">
     <h2>YouTube</h2>
     <p>Johnny Morgan</p>
-    <a href="https://youtube.com/@JohnnyMorgan-rs7xe" target="_blank" rel="noopener noreferrer">Voir la chaîne</a> Quand la pauvreté entre par la porte, l'amour s'en va par la fenêtre.
+    <a href="https://youtube.com/@JohnnyMorgan-rs7xe" target="_blank" rel="noopener noreferrer">Voir la chaîne</a> 
+    Quand la pauvreté entre par la porte, l'amour s'en va par la fenêtre.
   </section>
   <section id="menu-mail" class="menu-section">
     <h2>Email</h2>
-    <a href="mailto:morgunshted9@gmail.com">morgunshted9@gmail.com</a> On sait bien quand on part, mais jamais quand on revient.
+    <a href="mailto:morgunshted9@gmail.com">morgunshted9@gmail.com</a> 
+    On sait bien quand on part, mais jamais quand on revient.
   </section>
   <section id="menu-phone" class="menu-section">
     <h2>Téléphone</h2>
-    <a href="tel:+242064633208">06-463-32-08 and 06-722-40-20</a> Argent fait beaucoup mais amour fait tout.
+    <a href="tel:+242064633208">06-463-32-08 and 06-722-40-20</a> 
+    Argent fait beaucoup mais amour fait tout.
   </section>
   <section id="menu-x" class="menu-section">
     <h2>X (Twitter)</h2>
     <p>@morgunshted9</p>
-    <a href="https://x.com/morgunshted9" target="_blank" rel="noopener noreferrer">Suivre</a> Ne remets pas au lendemain ce que tu peux faire le jour même.
+    <a href="https://x.com/morgunshted9" target="_blank" rel="noopener noreferrer">Suivre</a> 
+    Ne remets pas au lendemain ce que tu peux faire le jour même.
   </section>
   <section id="menu-facebook" class="menu-section">
     <h2>Facebook</h2>
     <p>Morgan Mornigstarr</p>
-    <a href="https://facebook.com/morgan.mornigstarr" target="_blank" rel="noopener noreferrer">Visiter</a> Il n'est pire aveugle que celui qui ne veut pas voir. Il n'est pire sourd que celui qui ne veut pas entendre.
+    <a href="https://facebook.com/morgan.mornigstarr" target="_blank" rel="noopener noreferrer">Visiter</a> 
+    Il n'est pire aveugle que celui qui ne veut pas voir. Il n'est pire sourd que celui qui ne veut pas entendre.
   </section>
 </div>
 
@@ -174,7 +181,7 @@ QRCode.toCanvas(document.getElementById('qrCode'), 'https://instagram.com/bigmor
     <h1>Mornig_Starr MORGAN</h1>
     <div class="profile"><img src="styled_profile_image.png" alt="Mornig_Starr"></div>
     <p class="quote">"Chaque nuit te rapproche des étoiles cachées. Marche avec elles."</p>
-    <a href="https://wa.me/242067224020" target="_blank" class="whatsapp">📱 Contact WhatsApp</a> 06-463-32-08
+    <a href="https://wa.me/242064633208" target="_blank" class="whatsapp">📱 Contact WhatsApp</a> 06-463-32-08
     <div> 
       <audio id="bgm" loop preload="auto">
         <source src="https://orangefreesounds.com/wp-content/uploads/2025/03/Cosmic-ambient-soundscape-music.mp3" type="audio/mpeg">
